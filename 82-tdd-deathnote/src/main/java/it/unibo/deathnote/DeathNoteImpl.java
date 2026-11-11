@@ -48,7 +48,7 @@ public class DeathNoteImpl implements DeathNote {
      */
     @Override
     public boolean writeDeathCause(final String cause) {
-        validateNameAndField(lastWrittenName, cause, "cause");
+        requireNameAndFieldNotNull(lastWrittenName, cause, "cause");
         final var oldDeathRow = deaths.get(lastWrittenName);
         final var newDeathRow = oldDeathRow.upsertDeathCause(cause);
         if (oldDeathRow.equals(newDeathRow)) {
@@ -64,7 +64,7 @@ public class DeathNoteImpl implements DeathNote {
      */
     @Override
     public boolean writeDetails(final String details) {
-        validateNameAndField(lastWrittenName, details, "details");
+        requireNameAndFieldNotNull(lastWrittenName, details, "details");
         final var oldDeathRow = deaths.get(lastWrittenName);
         final var newDeathRow = oldDeathRow.upsertDeathDetails(details);
         if (oldDeathRow.equals(newDeathRow)) {
@@ -110,7 +110,7 @@ public class DeathNoteImpl implements DeathNote {
         return death;
     }
 
-    private void validateNameAndField(final String name, final String field, final String filedName) {
+    private void requireNameAndFieldNotNull(final String name, final String field, final String filedName) {
         if (name == null) {
             throw new IllegalStateException("There is no name written into Death Note");
         }
