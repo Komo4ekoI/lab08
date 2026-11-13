@@ -17,6 +17,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -103,6 +105,10 @@ public final class DrawNumberSwingView implements DrawNumberView {
     }
 
     @Override
+    @SuppressFBWarnings(
+        value = "EI_EXPOSE_REP2",
+        justification = "The controller is a shared observer, not internal state: it must not be copied"
+    )
     public void setController(final DrawNumberController observer) {
         this.controller = observer;
     }
