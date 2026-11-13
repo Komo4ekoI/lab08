@@ -49,13 +49,9 @@ public final class DrawNumberControllerImpl implements DrawNumberController {
 
     @Override
     public void quit() {
-        /*
-         * A bit harsh. A good application should configure the graphics to exit by
-         * natural termination when closing is hit. To do things more cleanly, attention
-         * should be paid to alive threads, as the application would continue to persist
-         * until the last thread terminates.
-         */
-        System.exit(0);
+        for (final var view : views) {
+            view.stop();
+        }
     }
 
 }

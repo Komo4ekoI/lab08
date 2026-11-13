@@ -30,4 +30,9 @@ public final class DrawNumberStandardOutputView implements DrawNumberView {
     public void result(final DrawResult res) {
         IO.println(res.getDescription());
     }
+
+    @Override
+    public void stop() {
+        // No UI to close
+    }
 }

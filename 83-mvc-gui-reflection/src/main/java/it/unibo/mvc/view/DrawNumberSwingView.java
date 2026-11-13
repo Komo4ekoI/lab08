@@ -8,6 +8,9 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -36,7 +39,7 @@ public final class DrawNumberSwingView implements DrawNumberView {
      * Builds a new Swing-based interactive view.
      */
     public DrawNumberSwingView() {
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.getContentPane().add(new JPanel(new BorderLayout()));
         final JPanel pNorth = new JPanel(new FlowLayout());
         final JTextField tNumber = new JTextField(10);
@@ -63,9 +66,7 @@ public final class DrawNumberSwingView implements DrawNumberView {
         bQuit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                if (confirmDialog("Confirm quitting?", "Quit")) {
-                    controller.quit();
-                }
+               askToQuit();
             }
         });
         bReset.addActionListener(new ActionListener() {
@@ -76,6 +77,12 @@ public final class DrawNumberSwingView implements DrawNumberView {
                 }
             }
         });
+        frame.addWindowListener(new WindowAdapter() {
+            @Override 
+            public void windowClosing(final WindowEvent e) {
+                askToQuit();
+            }
+        });
 
         frame.pack();
         frame.setLocationByPlatform(true);
@@ -84,6 +91,12 @@ public final class DrawNumberSwingView implements DrawNumberView {
     @Override
     public void start() {
         this.frame.setVisible(true);
+    }
+
+    private void askToQuit() {
+        if (confirmDialog("Confirm quitting?", "Quit")) {
+            controller.quit();
+        }
     }
 
     private boolean confirmDialog(final String question, final String name) {
@@ -114,5 +127,10 @@ public final class DrawNumberSwingView implements DrawNumberView {
 
     private void plainMessage(final String msg) {
         showMessageDialog(frame, msg, "Result", JOptionPane.PLAIN_MESSAGE);
+    }
+
+    @Override
+    public void stop() {
+        frame.dispose();
     }
 }

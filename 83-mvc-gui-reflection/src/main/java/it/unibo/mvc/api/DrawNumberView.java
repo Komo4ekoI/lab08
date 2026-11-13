@@ -23,4 +23,9 @@ public interface DrawNumberView {
      * @param res the result of the last draw
      */
     void result(DrawResult res);
+
+    /**
+     * Is called whith the intension to finith thise view.
+     */
+    void stop();
 }
