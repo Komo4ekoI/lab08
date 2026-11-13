@@ -105,7 +105,7 @@ public class DeathNoteImpl implements DeathNote {
         }
         final var death = deaths.get(name);
         if (death == null) {
-            throw new IllegalArgumentException("Name :" + name + " is not found");
+            throw new IllegalArgumentException("Name: " + name + " is not found");
         }
         return death;
     }
