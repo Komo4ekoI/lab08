@@ -121,8 +121,8 @@ public class DeathNoteImpl implements DeathNote {
 
     private static final class DeathNoteRow {
         private static final String DEFAULT_CAUSE = "heart attack";
-        private static final int MAX_MILLS_TO_SPECIFY_CAUSE_OF_DEATH = 40;
-        private static final int MAX_MILLS_TO_SPECIFY_DETAILS_OF_DEATH = 6040;
+        private static final int MAX_MILLS_TO_SPECIFY_DEATH_CAUSE = 40;
+        private static final int MAX_MILLS_TO_SPECIFY_DEATH_DETAILS = 6040;
         private final String cause;
         private final String details;
         private final long nameWrittenAtMills;
@@ -142,7 +142,7 @@ public class DeathNoteImpl implements DeathNote {
 
         DeathNoteRow upsertDeathCause(final String newCause) {
             if (currentTimeMillis() - nameWrittenAtMills 
-            > MAX_MILLS_TO_SPECIFY_CAUSE_OF_DEATH) {
+            > MAX_MILLS_TO_SPECIFY_DEATH_CAUSE) {
                 return this;
             }
             return new DeathNoteRow(newCause, details, nameWrittenAtMills);
@@ -150,7 +150,7 @@ public class DeathNoteImpl implements DeathNote {
 
         DeathNoteRow upsertDeathDetails(final String newDetails) {
             if (currentTimeMillis() - nameWrittenAtMills 
-            > MAX_MILLS_TO_SPECIFY_DETAILS_OF_DEATH) {
+            > MAX_MILLS_TO_SPECIFY_DEATH_DETAILS) {
                 return this;
             }
             return new DeathNoteRow(cause, newDetails, nameWrittenAtMills);
