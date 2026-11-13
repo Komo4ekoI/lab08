@@ -127,6 +127,10 @@ public class DeathNoteImpl implements DeathNote {
         private final String details;
         private final long nameWrittenAtMills;
 
+        DeathNoteRow() {
+            this(DEFAULT_CAUSE, "", currentTimeMillis());
+        }
+
         private DeathNoteRow(
             final String deathCause, 
             final String deathDetails, 
@@ -136,13 +140,9 @@ public class DeathNoteImpl implements DeathNote {
             this.nameWrittenAtMills = nameWrittenAtMills;
         }
 
-        DeathNoteRow() {
-            this(DEFAULT_CAUSE, "", currentTimeMillis());
-        }
-
         DeathNoteRow upsertDeathCause(final String newCause) {
             if (currentTimeMillis() - nameWrittenAtMills 
-            > MAX_MILLS_TO_SPECIFY_DEATH_CAUSE) {
+            > MAX_MILLS_TO_SPECIFY_DEATH_CAUSE || newCause.equals(cause)) {
                 return this;
             }
             return new DeathNoteRow(newCause, details, nameWrittenAtMills);
@@ -150,7 +150,7 @@ public class DeathNoteImpl implements DeathNote {
 
         DeathNoteRow upsertDeathDetails(final String newDetails) {
             if (currentTimeMillis() - nameWrittenAtMills 
-            > MAX_MILLS_TO_SPECIFY_DEATH_DETAILS) {
+            > MAX_MILLS_TO_SPECIFY_DEATH_DETAILS || newDetails.equals(details)) {
                 return this;
             }
             return new DeathNoteRow(cause, newDetails, nameWrittenAtMills);
